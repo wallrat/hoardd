@@ -1,0 +1,10 @@
+{
+  "carbonHost":   "metrics.amazon-us-east-1.port6379.net",
+  "carbonPort":   2003,
+  "scriptPath":   "/home/port6379/hoardd/scripts",
+  "cloudname":    "amazon-us-east-1",
+  "hostname":     "redispool-1",
+  "sampleInterval": 10,
+  "sendEach": 6,
+  "maxFailedSens": 10000
+}

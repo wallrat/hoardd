@@ -25,6 +25,7 @@ module.exports = entry_point = () ->
 
     hoard.on 'run', hoard.run_scripts
 
+    hoard.emit 'run'
     setInterval(->
       hoard.emit 'run'
     ,conf.sampleInterval * 1000)
