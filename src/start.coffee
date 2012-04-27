@@ -6,19 +6,27 @@ Fs     = require 'fs'
 # Command Line Setup
 module.exports = entry_point = () ->
   Cli.enable 'version'
-  Cli.setUsage 'node start.js -c <config json>'
+#  Cli.setUsage 'node start.js -c <config json>'
   Cli.setApp 'HoardDaemon', '0.1.0'
   Cli.parse
-    'config': ['c', 'Configuration file path', 'path', './config.json']
+    'host': ['h', 'Carbon hostname', 'string', "metrics.#{process.env['CLOUD_DOMAIN']}"]
+    'port': ['p', 'Carbon port', 'number', 2003]
 
   Cli.main (args, options) ->
-    if Path.existsSync options.config
-      try
-        conf = JSON.parse(Fs.readFileSync(options.config, 'utf-8'))
-      catch error
-        cli.debug "Error parsing config file: #{error}"
-    else
-      Cli.fatal "Can't find a config file"
+    # console.dir options
+    # create config
+    conf =
+      cloudname:    process.env['CLOUD_NAME']
+      hostname:     process.env['NODE_ID']
+      scriptPath:   "/home/port6379/hoardd/scripts"
+      carbonHost:   options.host
+      carbonPort:   options.port
+      sampleInterval: 10
+      sendEach: 6
+      maxFailedSens: 10000
+
+    console.dir conf
+    # process.exit(1)
 
     hoard = new Server conf, Cli
     hoard.load_scripts()
