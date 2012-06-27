@@ -15,7 +15,7 @@ module.exports = (server) ->
     for instance in Fs.readdirSync base
       envfile = "#{base}/#{instance}/instance.env"
       server.cli.debug "Found instance #{envfile}"
-      
+
       # read env file and extract auth, port
       env = Fs.readFileSync(envfile,'utf-8')
       for line in env.split('\n')
@@ -25,7 +25,7 @@ module.exports = (server) ->
       #server.cli.debug "Port: #{port} Auth: #{auth}"
 
       conn = Redis.createClient(port)
-      conn.auth(auth)
+      conn.auth(auth) if auth
       fn = (conn,instance) ->
         conn.on 'ready', ->
           metricPrefix = "#{server.cloudname}.redis.#{instance.replace(':','')}"
